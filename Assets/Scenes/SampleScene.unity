@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 634271165}
   - component: {fileID: 634271164}
   m_Layer: 0
-  m_Name: skull-violet
+  m_Name: Area Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1141,6 +1141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657133490}
   - component: {fileID: 1657133489}
+  - component: {fileID: 1657133491}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -1215,6 +1216,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1657133491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657133488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99918cffd299e4548a64532bcd46fc74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1841324432
 GameObject:
   m_ObjectHideFlags: 0
