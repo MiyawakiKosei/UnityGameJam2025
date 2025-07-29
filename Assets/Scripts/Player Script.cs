@@ -4,36 +4,72 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+
     private Rigidbody2D _rb;
+    private Vector2 startPos;
+    private Vector2 endPos;
 
-    private float powar = 2.0f;
-    private float maxpowar = 5.0f;
+    [SerializeField] private float power = 20f;
+    [SerializeField] private float maxPower = 30f;
 
-    private Vector2 StartPos;
-    private Vector2 EndPos;
+    private bool isDragging = false;
+    private bool canPull = true;
 
-    // Start is called before the first frame update
+    private int bounceCount = 0;
+    [SerializeField] private int maxBounceCount = 5;
+
     void Start()
     {
-        _rb=GetComponent<Rigidbody2D>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void OnMouseDown()
     {
-        StartPos=(Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (!canPull) return;
+
+        startPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        isDragging = true;
+
+        _rb.velocity = Vector2.zero;
+        _rb.angularVelocity = 0f;
+        _rb.bodyType = RigidbodyType2D.Kinematic;
     }
 
     private void OnMouseDrag()
     {
-        transform.position = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (!isDragging) return;
 
-        Vector2 force = Vector2.ClampMagnitude((StartPos - EndPos), maxpowar);
-        _rb.AddForce(force * powar, ForceMode2D.Impulse);
+        endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseUp()
     {
+        if (!isDragging) return;
 
+        isDragging = false;
+        canPull = false;
+
+        bounceCount = 0; //バウンド回数リセット
+
+        endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 force = startPos - endPos;
+        force = Vector2.ClampMagnitude(force, maxPower);
+
+        _rb.bodyType = RigidbodyType2D.Dynamic;
+        _rb.AddForce(force * power, ForceMode2D.Impulse);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!canPull)
+        {
+            bounceCount++;
+
+            if (bounceCount >= maxBounceCount)
+            {
+                canPull = true;
+                _rb.velocity = Vector2.zero; // ピタッと止める
+            }
+        }
     }
 }
