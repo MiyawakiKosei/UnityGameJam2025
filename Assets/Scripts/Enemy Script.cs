@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -29,8 +30,12 @@ public class EnemyScript : MonoBehaviour
     }
 
     void Die()
-    {
+    {  
+        
+        SceneManager.LoadScene("GameClearScene");
         Destroy(gameObject);
+
+      
     }
 
     // Start is called before the first frame update
